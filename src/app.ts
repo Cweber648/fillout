@@ -17,8 +17,11 @@ server.keepAliveTimeout = 120 * 1000;
 server.headersTimeout = 120 * 1000;
 
 app.get('/:formId/filteredResponses', async (req: Request, res: Response) => {
+  //endpoint for getting filtered responses
   try {
     const filters = (req.query.filters as FilterClauseType[]) ?? [];
+    //getting query param of filters
+    //forward data
     return res.send(
       await filteredResponsesController.getFilteredReponses(filters)
     );

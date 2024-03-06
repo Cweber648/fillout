@@ -6,6 +6,7 @@ import {
 } from '../models/filterResponse.model';
 import { BadRequestError } from '../utils/badRequest.error';
 
+//sort the responses based on the filter clauses
 const sortResponses = (
   questions: Questions[],
   filterClauses: FilterClauseType[]
@@ -43,27 +44,26 @@ const sortResponses = (
 };
 
 export class FilteredResponsesService {
+  //filter response service
   baseUrl = 'https://api.fillout.com/v1/api/forms';
   formId = 'cLZojxk94ous';
 
   public async getFilteredResponses(filters: FilterClauseType[]) {
     try {
       const url = `https://api.fillout.com/v1/api/forms/${this.formId}`;
-
+      //not ideal reading token like this.
       const response = await axios.get<FilterResponse>(url, {
         headers: {
           Authorization: `Bearer sk_prod_TfMbARhdgues5AuIosvvdAC9WsA5kXiZlW8HZPaRDlIbCpSpLsXBeZO7dCVZQwHAY3P4VSBPiiC33poZ1tdUj2ljOzdTCCOSpUZ_3912`,
         },
       });
       if (filters.length) {
-        console.log('IF!');
         return {
           ...response.data,
           questions: sortResponses(response.data.questions ?? [], filters),
           filters: JSON.parse(JSON.stringify(filters)),
         };
       } else {
-        console.log('ELSE');
         return {
           ...response.data,
           filters,

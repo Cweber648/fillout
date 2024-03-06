@@ -10,6 +10,7 @@ export class FilteredReponsesController {
   constructor() {}
 
   public async getFilteredReponses(filters: Array<FilterClauseType>) {
+    //call service
     return await this.filteredResponsesService.getFilteredResponses(filters);
   }
 }
